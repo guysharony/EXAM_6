@@ -1,60 +1,71 @@
 #!/bin/bash
 
-FAILURE='\033[0;31m'
-SUCCESS='\033[0;32m'
-NC='\033[0m'
+cleanup() {
+	{ rm ./tests/.analyze; } 2> /dev/null
+	{ rm ./tests/.compilation; } 2> /dev/null
 
+	{ rm ./tests/test1/.result; } 2> /dev/null
+	{ rm ./tests/test1/.diff; } 2> /dev/null
+
+	{ rm ./tests/test2/.result; } 2> /dev/null
+	{ rm ./tests/test2/.diff; } 2> /dev/null
+
+	{ rm ./tests/test3/.result; } 2> /dev/null
+	{ rm ./tests/test3/.diff; } 2> /dev/null
+
+	{ rm ./tests/mini_serv; } 2> /dev/null
+
+	{ kill -9 $(lsof -t -i:9999); } 2> /dev/null
+}
+
+trap cleanup EXIT
+
+
+# Source
+source ./tests/.source/display.sh
+source ./tests/.source/grader.sh
+source ./tests/.source/clients.sh
 echo "Verifying your work."
 
-# Analyze
-echo "analyzing..."
-clang -Wall -Werror -Wextra --analyze --analyzer-output text ./rendu/mini_serv.c -o ./tests/mini_serv &> .trace_analyze
-if [ $(awk 'END { print NR }' .trace_analyze) -ne 0 ]
-then
-	cat .trace_analyze > trace
-	rm .trace_analyze
-	echo -e "${FAILURE}FAILED${NC}"
-	exit 1
-fi
-rm .trace_analyze
+
+# Analyzer
+evaluate \
+	"Analyzer" \
+	"clang -Wall -Werror -Wextra --analyze --analyzer-output text ./rendu/mini_serv.c -o ./tests/mini_serv" \
+	.analyze
+
+# Compilation
+evaluate \
+	"Compilation" \
+	"clang -Wall -Werror -Wextra -fsanitize=address ./rendu/mini_serv.c -o ./tests/mini_serv" \
+	.compilation
+
+# Test 1
+./tests/mini_serv &> ./tests/test1/.result
+server_pid=$!
+
+stop_process $server_pid
+
+grade 1
 
 
-###### TEST 1
-echo ""
-echo -n "TEST 1: "
-clang -Wall -Werror -Wextra -fsanitize=address ./rendu/mini_serv.c -o ./tests/mini_serv &> .trace_compilation
-if [ $(awk 'END { print NR }' .trace_compilation) -ne 0 ]
-then 
-	cat .trace_compilation > trace
-	rm .trace_compilation
-	echo -e "${FAILURE}KO${NC}"
-	exit 1
-fi
-rm .trace_compilation
+# Test 2
+server1_pid=$(start_server 9999 2)
+server2_pid=$(start_server 9999 2)
 
-./tests/mini_serv 9999 &> ./tests/test1/.result &
-MINI_SERV_PID=$!
-sleep 1
-if [ $(awk 'END { print NR }' ./tests/test1/.result) -ne 0 ]
-then
-	echo -e "${SUCCESS}KO${NC}"
-	exit 1
-fi
+stop_process $server1_pid
+stop_process $server2_pid
 
-./tests/test1/test.sh
-pkill -9 mini_serv &> /dev/null &
-rm ./tests/mini_serv &> /dev/null &
+grade 2
 
 
-diff ./tests/test1/.result ./tests/test1/expected &>> trace &
-if [ $(awk 'END { print NR }' trace) -ne 0 ]
-then
-	rm ./tests/test1/.result &> /dev/null &
-	echo -e "${FAILURE}KO${NC}"
-	exit 1
-fi
-rm ./tests/test1/.result &> /dev/null &
-rm ./trace &> /dev/null &
+# Test 3
+server_pid=$(start_server 9999 3)
+client0_pid=$(start_reader_client 9999 3)
+client1_pid=$(start_writer_client 9999 3 input_client1)
 
+stop_process $client1_pid
+stop_process $client0_pid
+stop_process $server_pid
 
-echo -e "${SUCCESS}OK${NC}"
+grade 3
