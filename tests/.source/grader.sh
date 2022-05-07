@@ -4,12 +4,19 @@ evaluate() {
 	eval " $2 &> ./tests/$3"
 	if [ $(awk 'END { print NR }' ./tests/$3) -ne 0 ]
 	then
-		cat ./tests/$3 > trace
+		echo "===== [$1] KO =====" >> trace
+		cat ./tests/$3 >> trace
+		echo "========================" >> trace
+		echo "" >> trace
+
 		rm ./tests/$3
 		display_failure "$1"
 	fi
 	rm ./tests/$3
 	display_success "$1"
+
+	echo "===== [$1] OK =====" >> trace
+	echo "" >> trace
 }
 
 grade() {

@@ -28,6 +28,9 @@ source ./tests/.source/clients.sh
 echo "Verifying your work."
 
 
+echo -n "" > trace
+
+
 # Analyzer
 evaluate \
 	"Analyzer" \

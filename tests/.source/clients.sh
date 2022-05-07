@@ -15,8 +15,10 @@ start_reader_client() {
 start_writer_client() {
 	cat ./tests/test$2/$3 | netcat -q 1 127.0.0.1 $1
 	sleep 1
+	return $!
 }
 
 stop_process() {
 	{ kill $1 && wait $1; } 2> /dev/null
+	sleep 1
 }
