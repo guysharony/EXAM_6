@@ -7,10 +7,10 @@ cleanup() {
 	{ rm ./tests/test1/.result; } 2> /dev/null
 	{ rm ./tests/test1/.diff; } 2> /dev/null
 
-	## { rm ./tests/test2/.result; } 2> /dev/null
+	{ rm ./tests/test2/.result; } 2> /dev/null
 	{ rm ./tests/test2/.diff; } 2> /dev/null
 
-	##{ rm ./tests/test3/.result; } 2> /dev/null
+	{ rm ./tests/test3/.result; } 2> /dev/null
 	{ rm ./tests/test3/.diff; } 2> /dev/null
 
 	{ rm ./tests/test4/.result; } 2> /dev/null

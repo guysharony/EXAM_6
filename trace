@@ -6,63 +6,188 @@
 
 ===== [Test 2] OK =====
 
-===== [Test 3] KO =====
-1,52c1,3
-< =================================================================
-< ==24750==ERROR: AddressSanitizer: heap-use-after-free on address 0x604000000014 at pc 0x000000513ffa bp 0x7ffd07c84e10 sp 0x7ffd07c84e08
-< READ of size 4 at 0x604000000014 thread T0
-<     #0 0x513ff9 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x513ff9)
-<     #1 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
-<     #2 0x419ee9 in _start (/home/user42/Documents/EXAM_6/tests/mini_serv+0x419ee9)
-< 
-< 0x604000000014 is located 4 bytes inside of 40-byte region [0x604000000010,0x604000000038)
-< freed by thread T0 here:
-<     #0 0x4d9bd0 in __interceptor_free.localalias.0 (/home/user42/Documents/EXAM_6/tests/mini_serv+0x4d9bd0)
-<     #1 0x5130bc in clean_client (/home/user42/Documents/EXAM_6/tests/mini_serv+0x5130bc)
-<     #2 0x515313 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x515313)
-<     #3 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
-< 
-< previously allocated by thread T0 here:
-<     #0 0x4d9da0 in malloc (/home/user42/Documents/EXAM_6/tests/mini_serv+0x4d9da0)
-<     #1 0x5145c4 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x5145c4)
-<     #2 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
-< 
-< SUMMARY: AddressSanitizer: heap-use-after-free (/home/user42/Documents/EXAM_6/tests/mini_serv+0x513ff9) in main
-< Shadow bytes around the buggy address:
-<   0x0c087fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-<   0x0c087fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-<   0x0c087fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-<   0x0c087fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-<   0x0c087fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-< =>0x0c087fff8000: fa fa[fd]fd fd fd fd fa fa fa 00 00 00 00 00 fa
-<   0x0c087fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-<   0x0c087fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-<   0x0c087fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-<   0x0c087fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-<   0x0c087fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-< Shadow byte legend (one shadow byte represents 8 application bytes):
-<   Addressable:           00
-<   Partially addressable: 01 02 03 04 05 06 07 
-<   Heap left redzone:       fa
-<   Freed heap region:       fd
-<   Stack left redzone:      f1
-<   Stack mid redzone:       f2
-<   Stack right redzone:     f3
-<   Stack after return:      f5
-<   Stack use after scope:   f8
-<   Global redzone:          f9
-<   Global init order:       f6
-<   Poisoned by user:        f7
-<   Container overflow:      fc
-<   Array cookie:            ac
-<   Intra object redzone:    bb
-<   ASan internal:           fe
-<   Left alloca redzone:     ca
-<   Right alloca redzone:    cb
-< ==24750==ABORTING
----
-> server: client 1 just arrived
-> client 1: test
-> server: client 1 just left
+===== [Test 3] OK =====
+
+===== [Test 4] OK =====
+
+===== [Test 5] OK =====
+
+===== [Test 6] KO =====
+29,67d28
+< server: client 2 just arrived
+< client 2: iebrgihbezlrigb lizehv isbfvhb sjvbhr ljbhvekj vbrfhjbv dfkjhbv lfsihbv lidfsbvksdhbflvhbserkughbseriuhbvkseuhbrvkusehbrgkuyghserkugysekuiryghksueyrgkuseyghrkuysehrgkuysehrkguyghserkuygsekurygsekuryghkuseyrghliuysegrgergsergsergsergsekrhgseriuhsertg
+< client 2: 
+< client 2: 
+< client 2: sergiuhserg
+< client 2: sergiuhserg
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: seromgijhseiuhrg ehrsvhbs dkrubhvksdfjhvkjhdbfkjhvbsfdkjbhvsdkjfhbvkjsdbhkjvhbsdkjhbvsrt
+< client 2: sergiuhsergrtg
+< client 2: 
+< client 2: rst
+< client 2: g
+< client 2: 
+< client 2: sergiuhserg
+< client 2: 
+< client 2: s
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: sergiuhserg
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: ikusgehrilguhgserg
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+< client 2: 
+69,203d29
+< server: client 2 just left
+< server: client 3 just arrived
+< client 3: selr nglvkrjfnv lkfsb gb
+< client 3: fgb 
+< client 3: bg
+< client 3:  dgb sgb dfgb dsgb dfgbd gsd 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3:  dfgb gbds 
+< client 3:  bsdb
+< client 3:  sd b
+< client 3:  dsgbgb 
+< client 3:  gdb sdfiuhbk sdufbbkuhsbdfk jbhsdfkhb ksdfjhb kjfdhbkj dsbfkgjbskj dbfihsbdfkjhbdsfkjbhvsdfkj bfksdj kdsjfhbv kdjxfbk fhbv kjdvkjhb sd fgb
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< client 3: 
+< server: client 3 just left
+< server: client 4 just arrived
+< client 4: lier jnvlefbv sfev sdfiuhbksfb
+< client 4:  fd
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4:  df mbojndfkjnb dflsijbv kdsjfhbvkjshdbfkvhbsdfkhjvbsdfkjhvbsdkfjhbvksdfuhbvkdsfhvkuyhsedkruehbvksudhbrvkuhsberkvubskuehbrvkuseybrvukiybservuiybsdrviubesrviuybserivhbserivbser
+< client 4:  sd
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4:  srtgliu nsd kfjnljdfnb ljdsfnbl jbhsdfkhbsd
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< client 4: 
+< server: client 4 just left
+< server: client 5 just arrived
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: sergmoijsermgoijserg
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< client 5: 
+< server: client 6 just arrived
+< server: client 7 just arrived
+< client 7: lisehjrlig elsirhbvkfhb vldjsfblv jdnsfljv bsdfljhbvls dfbkdbfshv dfbkdbfshv
+< client 7: 
+< client 7: 
+< client 7: 
+< client 7: 
+< server: client 8 just arrived
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: 
+< client 8: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus fermentum ultrices. Quisque sollicitudin felis sollicitudin, iaculis turpis id, maximus massa. Nullam sit amet sapien vitae lectus sollicitudin hendrerit dictum dictum purus. Aliquam et dolor turpis. Sed sagittis vitae ipsum et ullamcorper. Curabitur et tempus nisi. Proin pellentesque, nisi vitae consectetur porta, eros leo vestibulum dui, ut sollicitudin mauris nisi vel justo. Sed vel mollis dui. Nunc lobortis dui et nisi sollicitudin semper. Vivamus pretium nibh tellus, cursus accumsan risus fringilla quis. Vivamus laoreet nisi quis justo bibendum, et placerat ex rhoncus. Phasellus malesuada ultrices euismod. In porttitor nulla nec ex venenatis imperdiet nec eu nisl.
+< client 8: 
+< client 8: Ut blandit laoreet risus id cursus. Phasellus consequat mollis odio vitae porttitor. Mauris vel odio congue, condimentum dui id, placerat dolor. Mauris varius in risus nec sodales. Sed id mauris cursus, efficitur enim id, pellentesque augue. Donec nec ultricies augue. Praesent orci leo, sollicitudin a mollis sit amet, dapibus at justo. Proin ipsum diam, egestas quis nisi vel, dictum vulputate sapien. Cras velit velit, tristique ac finibus euismod, hendrerit et dolor. Praesent feugiat sed risus in convallis. Morbi in finibus felis, ut iaculis neque.
+< client 8: 
+< client 8: Fusce fringilla mauris sit amet laoreet porta. Morbi elit nunc, tincidunt maximus quam vitae, euismod condimentum massa. Etiam eu augue nisi. Mauris vehicula, mauris in convallis tempus, turpis lorem faucibus nisl, vitae tempor urna lectus vel quam. Proin porta, mauris non vestibulum malesuada, mauris lacus bibendum justo, efficitur feugiat mi ante non mi. Curabitur pretium augue vehicula suscipit vehicula. In eget libero quam. Donec suscipit leo mauris, ut pulvinar leo tincidunt a. Nullam suscipit dapibus velit, et varius ante lacinia a. Cras rutrum diam rhoncus velit consequat rutrum. Nunc sem sapien, lobortis eu pretium sed, efficitur quis lectus. In diam quam, tincidunt non nisl et, finibus fermentum justo. Proin bibendum, enim at semper elementum, quam diam posuere augue, at placerat dui eros ac arcu. Etiam at luctus ipsum. Suspendisse lorem neque, auctor eget consectetur ac, bibendum ac est. Vivamus eget gravida nulla.
+< client 8: 
+< client 8: Praesent dolor lorem, feugiat eu quam ut, lacinia varius lorem. Etiam congue ante eu purus sagittis, a condimentum quam sodales. Proin ultricies tortor purus, vitae consectetur odio ultricies sit amet. Nulla venenatis urna a nulla tincidunt, quis dictum dolor laoreet. In hac habitasse platea dictumst. Sed a lacus vitae ex auctor hendrerit. Curabitur vitae convallis dolor. Morbi sit amet risus at odio eleifend ultrices quis sit amet nunc. Nam auctor orci purus, gravida mollis odio dictum vitae. Donec nec dui a arcu convallis lobortis. Curabitur efficitur orci eget lorem sollicitudin ornare.
+< client 8: 
+< server: client 5 just left
+< server: client 6 just left
+< server: client 7 just left
+< server: client 8 just left
 ========================
 
