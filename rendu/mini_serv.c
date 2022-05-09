@@ -1,6 +1,5 @@
 #include <string.h>
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <netdb.h>
@@ -67,6 +66,7 @@ int				send_all(t_server *server, int sender, char *content, size_t length) {
 			if (send(client->fd, content, length, 0) < 0)
 				return (0);
 		}
+
 		client = client->next;
 	}
 	return (1);
@@ -143,7 +143,7 @@ int				main(int argc, char **argv) {
 		FD_ZERO(&server.reads);
 		FD_ZERO(&server.writes);
 		FD_SET(server.sockfd, &server.reads);
-	
+
 		int		max = server.sockfd;
 		t_client	*client = server.clients;
 		while (client) {
