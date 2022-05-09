@@ -20,7 +20,6 @@ typedef struct			s_client {
 	int				fd;
 	char				*buffer;
 	t_message			*queue;
-	struct s_client	*prev;
 	struct s_client	*next;
 }					t_client;
 
@@ -82,27 +81,8 @@ int				add_message(t_server *server, int sender, char *content, size_t length) {
 	return (1);
 }
 
-void				print_clients(t_server *server) {
-	t_client		*client = server->clients;
-
-	while (client) {
-		printf("[%d]\n", client->id);
-		client = client->next;
-	}
-}
-
 t_client			*clean_client(t_server *server, t_client **client) {
 	t_client		*next_client = (*client)->next;
-	t_client		*previous_client = (*client)->prev;
-
-	if (previous_client) {
-		printf("test 1\n");
-		previous_client->next = next_client;
-	} else {
-		printf("test 2\n");
-		server->clients = next_client;
-	}
-
 	t_message		*current_message = (*client)->queue;
 
 	while (current_message) {
@@ -118,7 +98,6 @@ t_client			*clean_client(t_server *server, t_client **client) {
 	if ((*client)->buffer)
 		free((*client)->buffer);
 	(*client)->buffer = NULL;
-	(*client)->prev = NULL;
 	(*client)->next = NULL;
 	FD_CLR((*client)->fd, &server->reads);
 	FD_CLR((*client)->fd, &server->writes);
@@ -202,8 +181,6 @@ int				main(int argc, char **argv) {
 			if (FD_ISSET(sockfd, &server.reads)) {
 				int	new_client = accept(sockfd, NULL, NULL);
 				if (new_client) {
-					printf("accept: %d\n", new_client);
-
 					t_client	*client = NULL;
 					if (!(client = (t_client*)malloc(sizeof(t_client)))) {
 						close(new_client);
@@ -214,13 +191,10 @@ int				main(int argc, char **argv) {
 					client->fd = new_client;
 					client->buffer = NULL;
 					client->queue = NULL;
-					client->prev = NULL;
 					client->next = NULL;
 					if (!server.clients) {
-						printf("arrived 1\n");
 						server.clients = client;
 					} else {
-						printf("arrived 2\n");
 						size_t	length = sprintf(buffer, "server: client %d just arrived\n", client->id);
 						if (!add_message(&server, client->id, buffer, length)) {
 							clean_client(&server, &client);
@@ -230,12 +204,13 @@ int				main(int argc, char **argv) {
 						while (current_client->next)
 							current_client = current_client->next;
 						current_client->next = client;
-						client->prev = current_client;
 					}
 				}
 			}
 
+			t_client	*head = server.clients;
 			t_client	*client = server.clients;
+			t_client	*previous = NULL;
 			t_client	*next = NULL;
 			while (client) {
 				next = client->next;
@@ -245,8 +220,9 @@ int				main(int argc, char **argv) {
 						size_t length = sprintf(buffer, "server: client %d just left\n", client->id);
 						if (!add_message(&server, client->id, buffer, length))
 							return exit_fatal(&server);
-						clean_client(&server, &client);
-						print_clients(&server);
+						t_client	*next_client = clean_client(&server, &client);
+						previous->next = next_client;
+						server.clients = previous ? head : next_client;
 					} else {
 						recv_buffer[received] = 0;
 						ssize_t		offset = 0;
@@ -275,6 +251,7 @@ int				main(int argc, char **argv) {
 					}
 				}
 
+				previous = client;
 				client = next;
 			}
 		}
