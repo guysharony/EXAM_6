@@ -1,0 +1,68 @@
+===== [Analyzer] OK =====
+
+===== [Compilation] OK =====
+
+===== [Test 1] OK =====
+
+===== [Test 2] OK =====
+
+===== [Test 3] KO =====
+1,52c1,3
+< =================================================================
+< ==24750==ERROR: AddressSanitizer: heap-use-after-free on address 0x604000000014 at pc 0x000000513ffa bp 0x7ffd07c84e10 sp 0x7ffd07c84e08
+< READ of size 4 at 0x604000000014 thread T0
+<     #0 0x513ff9 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x513ff9)
+<     #1 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
+<     #2 0x419ee9 in _start (/home/user42/Documents/EXAM_6/tests/mini_serv+0x419ee9)
+< 
+< 0x604000000014 is located 4 bytes inside of 40-byte region [0x604000000010,0x604000000038)
+< freed by thread T0 here:
+<     #0 0x4d9bd0 in __interceptor_free.localalias.0 (/home/user42/Documents/EXAM_6/tests/mini_serv+0x4d9bd0)
+<     #1 0x5130bc in clean_client (/home/user42/Documents/EXAM_6/tests/mini_serv+0x5130bc)
+<     #2 0x515313 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x515313)
+<     #3 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
+< 
+< previously allocated by thread T0 here:
+<     #0 0x4d9da0 in malloc (/home/user42/Documents/EXAM_6/tests/mini_serv+0x4d9da0)
+<     #1 0x5145c4 in main (/home/user42/Documents/EXAM_6/tests/mini_serv+0x5145c4)
+<     #2 0x7faa8f05fc86 in __libc_start_main /build/glibc-uZu3wS/glibc-2.27/csu/../csu/libc-start.c:310
+< 
+< SUMMARY: AddressSanitizer: heap-use-after-free (/home/user42/Documents/EXAM_6/tests/mini_serv+0x513ff9) in main
+< Shadow bytes around the buggy address:
+<   0x0c087fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<   0x0c087fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<   0x0c087fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<   0x0c087fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+<   0x0c087fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+< =>0x0c087fff8000: fa fa[fd]fd fd fd fd fa fa fa 00 00 00 00 00 fa
+<   0x0c087fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+<   0x0c087fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+<   0x0c087fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+<   0x0c087fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+<   0x0c087fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+< Shadow byte legend (one shadow byte represents 8 application bytes):
+<   Addressable:           00
+<   Partially addressable: 01 02 03 04 05 06 07 
+<   Heap left redzone:       fa
+<   Freed heap region:       fd
+<   Stack left redzone:      f1
+<   Stack mid redzone:       f2
+<   Stack right redzone:     f3
+<   Stack after return:      f5
+<   Stack use after scope:   f8
+<   Global redzone:          f9
+<   Global init order:       f6
+<   Poisoned by user:        f7
+<   Container overflow:      fc
+<   Array cookie:            ac
+<   Intra object redzone:    bb
+<   ASan internal:           fe
+<   Left alloca redzone:     ca
+<   Right alloca redzone:    cb
+< ==24750==ABORTING
+---
+> server: client 1 just arrived
+> client 1: test
+> server: client 1 just left
+========================
+

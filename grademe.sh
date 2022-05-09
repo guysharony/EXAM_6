@@ -71,11 +71,14 @@ grade 2
 # Test 3
 server_pid=$(start_server 9999 3)
 
-client0_pid=$(start_reader_client 9999 3)
+client0_pid=$(start_writer_client 9999 3 input_client0)
+client1_pid=$(start_reader_client 9999 3)
+stop_process $client0_pid
 
-client1_pid=$(start_writer_client 9999 3 input_client1)
+client2_pid=$(start_writer_client 9999 3 input_client2)
+stop_process $client2_pid
+
 stop_process $client1_pid
-sleep 2
 
 stop_process $server_pid
 
