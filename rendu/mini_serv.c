@@ -7,19 +7,10 @@
 #include <sys/socket.h>
 #include <sys/select.h>
 
-typedef struct			s_message {
-	int				sender;
-	char				*content;
-	size_t			length;
-	size_t			offset;
-	struct s_message	*next;
-}					t_message;
-
 typedef struct			s_client {
 	int				id;
 	int				fd;
 	char				*buffer;
-	t_message			*queue;
 	struct s_client	*next;
 }					t_client;
 
@@ -68,7 +59,7 @@ char				*str_join(char **str1, char *str2) {
 	return (merged);
 }
 
-int				add_message(t_server *server, int sender, char *content, size_t length) {
+int				send_all(t_server *server, int sender, char *content, size_t length) {
 	t_client		*client = server->clients;
 
 	while (client) {
@@ -83,18 +74,7 @@ int				add_message(t_server *server, int sender, char *content, size_t length) {
 
 t_client			*clean_client(t_server *server, t_client **client) {
 	t_client		*next_client = (*client)->next;
-	t_message		*current_message = (*client)->queue;
 
-	while (current_message) {
-		t_message	*next_message = current_message->next;
-		free(current_message->content);
-		current_message->content = NULL;
-		current_message->next = NULL;
-		free(current_message);
-		current_message = next_message;
-	}
-
-	(*client)->queue = NULL;
 	if ((*client)->buffer)
 		free((*client)->buffer);
 	(*client)->buffer = NULL;
@@ -190,13 +170,12 @@ int				main(int argc, char **argv) {
 					client->id = server.total++;
 					client->fd = new_client;
 					client->buffer = NULL;
-					client->queue = NULL;
 					client->next = NULL;
 					if (!server.clients) {
 						server.clients = client;
 					} else {
 						size_t	length = sprintf(buffer, "server: client %d just arrived\n", client->id);
-						if (!add_message(&server, client->id, buffer, length)) {
+						if (!send_all(&server, client->id, buffer, length)) {
 							clean_client(&server, &client);
 							return exit_fatal(&server);
 						}
@@ -218,10 +197,11 @@ int				main(int argc, char **argv) {
 					ssize_t		received = recv(client->fd, recv_buffer, 65535 - 1, 0);
 					if (received <= 0) {
 						size_t length = sprintf(buffer, "server: client %d just left\n", client->id);
-						if (!add_message(&server, client->id, buffer, length))
+						if (!send_all(&server, client->id, buffer, length))
 							return exit_fatal(&server);
 						t_client	*next_client = clean_client(&server, &client);
-						previous->next = next_client;
+						if (previous)
+							previous->next = next_client;
 						server.clients = previous ? head : next_client;
 					} else {
 						recv_buffer[received] = 0;
@@ -241,7 +221,7 @@ int				main(int argc, char **argv) {
 								char		*to_send = str_join(&(client->buffer), line);
 								free(line);
 								size_t	length = sprintf(buffer, "client %d: %s", client->id, to_send);
-								if (!add_message(&server, client->id, buffer, length)) {
+								if (!send_all(&server, client->id, buffer, length)) {
 									free(to_send);
 									return exit_fatal(&server);
 								}
