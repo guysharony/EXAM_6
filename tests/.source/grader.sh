@@ -30,7 +30,7 @@ grade() {
 		echo "========================" >> trace
 		echo "" >> trace
 
-		rm ./tests/test$1/.result &> /dev/null &
+		#rm ./tests/test$1/.result &> /dev/null &
 		rm ./tests/test$1/.diff &> /dev/null &
 		display_failure "Test $1"
 	fi
