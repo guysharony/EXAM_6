@@ -160,7 +160,7 @@ int				main(int argc, char **argv) {
 		if (FD_ISSET(sockfd, &server.reads)) {
 			int	new_client = accept(sockfd, NULL, NULL);
 			if (new_client) {
-				t_client	*client = NULL;
+				client = NULL;
 				if (!(client = (t_client*)malloc(sizeof(t_client)))) {
 					close(new_client);
 					return exit_fatal(&server);
@@ -187,9 +187,10 @@ int				main(int argc, char **argv) {
 		}
 
 		t_client	*head = server.clients;
-		t_client	*client = server.clients;
 		t_client	*previous = NULL;
 		t_client	*next = NULL;
+
+		client = server.clients;
 		while (client) {
 			next = client->next;
 			if (client && FD_ISSET(client->fd, &server.reads)) {
