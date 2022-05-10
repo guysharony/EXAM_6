@@ -1,4 +1,4 @@
-# EXAM_6
+# EXAM 6
 
 The following content is the **NEW SUBJECT AND VALID ANSWERS for exam n°6 under LINUX**.
 
