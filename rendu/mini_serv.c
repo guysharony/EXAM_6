@@ -37,6 +37,12 @@ int				extract_message(const char *buffer, char **stack) {
 		i++;
 	}
 
+	if (!(copy = calloc(i + 2, sizeof(char))))
+		return (-1);
+	memcpy(copy, buffer, i + 1);
+	copy[i + 1] = 0;
+	*stack = copy;
+
 	return (0);
 }
 
@@ -154,7 +160,8 @@ int				main(int argc, char **argv) {
 			client = client->next;
 		}
 
-		if (select(max + 1, &server.reads, &server.writes, NULL, NULL) < 0)
+		int		activity = select(max + 1, &server.reads, &server.writes, NULL, NULL);
+		if (activity < 0)
 			return exit_fatal(&server);
 		
 		if (FD_ISSET(sockfd, &server.reads)) {
@@ -186,19 +193,28 @@ int				main(int argc, char **argv) {
 			}
 		}
 
-		t_client	*head = server.clients;
-		t_client	*previous = NULL;
-		t_client	*next = NULL;
+		t_client *head = server.clients;
+		t_client *previous = NULL;
+		t_client *next = NULL;
 
 		client = server.clients;
 		while (client) {
 			next = client->next;
 			if (client && FD_ISSET(client->fd, &server.reads)) {
-				ssize_t		received = recv(client->fd, recv_buffer, 65535 - 1, 0);
+				ssize_t received = recv(client->fd, recv_buffer, 65535 - 1, 0);
 				if (received <= 0) {
-					size_t length = sprintf(buffer, "server: client %d just left\n", client->id);
+					size_t length;
+
+					if (client->buffer) {
+						length = sprintf(buffer, "client %d: %s", client->id, client->buffer);
+						if (!send_all(&server, client->id, buffer, length))
+							return exit_fatal(&server);
+					}
+
+					length = sprintf(buffer, "server: client %d just left\n", client->id);
 					if (!send_all(&server, client->id, buffer, length))
 						return exit_fatal(&server);
+
 					t_client	*next_client = clean_client(&server, &client);
 					if (previous)
 						previous->next = next_client;
@@ -213,7 +229,7 @@ int				main(int argc, char **argv) {
 						if (extracted < 0)
 							return exit_fatal(&server);
 						else if (extracted == 0) {
-							client->buffer = str_join(&(client->buffer), recv_buffer);
+							client->buffer = str_join(&(client->buffer), line);
 							offset = received;
 						} else {
 							size_t	line_length = strlen(line);

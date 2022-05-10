@@ -66,7 +66,7 @@ client 2:
 client 2: 
 client 2: 
 server: client 1 just left
-server: client 2 just left
+client 2: sertgliuhsergserver: client 2 just left
 server: client 3 just arrived
 client 3: selr nglvkrjfnv lkfsb gb
 client 3: fgb 
@@ -91,7 +91,7 @@ client 3:
 client 3: 
 client 3: 
 client 3: 
-server: client 3 just left
+client 3:  slief vlisdfbv dsflivh dsf server: client 3 just left
 server: client 4 just arrived
 client 4: lier jnvlefbv sfev sdfiuhbksfb
 client 4:  fd
@@ -113,7 +113,7 @@ client 4:
 client 4: 
 client 4: 
 client 4: 
-server: client 4 just left
+client 4:  sdfbojh sdlifjn lisdjnflijdh fb server: client 4 just left
 server: client 5 just arrived
 client 5: 
 client 5: 
@@ -199,5 +199,5 @@ client 8: Praesent dolor lorem, feugiat eu quam ut, lacinia varius lorem. Etiam 
 client 8: 
 server: client 5 just left
 server: client 6 just left
-server: client 7 just left
-server: client 8 just left
+client 7:  server: client 7 just left
+client 8: Proin iaculis aliquam laoreet. Pellentesque eros nulla, porttitor sit amet tortor sit amet, gravida pharetra justo. Sed gravida quam nisi, eu laoreet lacus consequat sit amet. Maecenas ex libero, pharetra at venenatis vitae, auctor id ipsum. Donec accumsan libero sed mollis vulputate. Nunc facilisis augue leo, eu fringilla leo pretium sed. Nullam in felis id nibh bibendum vulputate. Maecenas maximus dolor a tortor accumsan, eget rutrum eros mattis. Aliquam aliquam tellus nec commodo lacinia. Maecenas vitae erat ut ligula blandit pellentesque ac at metus. Nulla congue eu risus eget cursus. Quisque fringilla nulla nec porttitor bibendum. Proin imperdiet arcu vel ex cursus porttitor. Mauris eu accumsan lorem.server: client 8 just left
