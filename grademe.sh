@@ -19,6 +19,9 @@ cleanup() {
 	{ rm ./tests/test5/.result; } 2> /dev/null
 	{ rm ./tests/test5/.diff; } 2> /dev/null
 
+	{ rm ./tests/test6/.result; } 2> /dev/null
+	{ rm ./tests/test6/.diff; } 2> /dev/null
+
 	{ rm ./tests/mini_serv; } 2> /dev/null
 
 	{ kill -9 $(lsof -t -i:9999); } 2> /dev/null
